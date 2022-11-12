@@ -26,6 +26,10 @@ class Player:
         else:
             raise ValueError("Move is not valid!")
 
+    @property
+    def has_blackjack(self) -> bool:
+        return self.hand.value == 21 and len(self.hand) == 2
+
 
 
 class Dealer:
@@ -36,3 +40,6 @@ class Dealer:
     def make_move(self):
         return Moves.HIT if self.hand.value < 17 else Moves.STAY
 
+    @property
+    def has_blackjack(self) -> bool:
+        return self.hand.value == 21 and len(self.hand) == 2

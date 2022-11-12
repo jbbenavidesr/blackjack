@@ -2,7 +2,7 @@ from blackjack.models import Deck, Hand
 from blackjack.players import Dealer, Player
 
 
-class BlackJack:
+class Blackjack:
     """Main Game Handler"""
 
     def __init__(self, deck: Deck, player: Player, dealer: Dealer):
@@ -25,12 +25,23 @@ class BlackJack:
     def _play_round(self) -> None:
         self.deck.reset()
         self.deck.shuffle()
+        self.player.hand.cards = []
+        self.dealer.hand.cards= []
 
-        self.player.add_cards(self.deck.deal(2))
-        self.dealer.add_cards(self.deck.deal(2))
+        self.player.hand.add_cards(self.deck.deal(2))
+        self.dealer.hand.add_cards(self.deck.deal(2))
 
         print(f"You are dealt: {self.player.hand}")
         print(f"Dealer is dealt: {self.dealer.hand.cards[0]}, Unknown")
+
+        if self.player.has_blackjack:
+            print(f"The dealer has: {self.dealer.hand}")
+            if not self.dealer.has_blackjack:
+                print("Blackjack! You win!")
+            else:
+                print("You Tie.")
+
+
 
         try:
             self._move(self.player)

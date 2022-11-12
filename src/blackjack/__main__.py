@@ -1,4 +1,4 @@
-from blackjack.game import BlackJack
+from blackjack.game import Blackjack
 from blackjack.models import Deck
 from blackjack.players import Dealer, Player
 
@@ -8,7 +8,7 @@ def main():
 
     print("Welcome to Blackjack!")
 
-    game = BlackJack(
+    game = Blackjack(
         deck=Deck(),
         player=Player(),
         dealer=Dealer(),
