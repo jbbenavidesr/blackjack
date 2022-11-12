@@ -36,6 +36,9 @@ class Card:
     def __str__(self):
         return f"{self.value.value}{self.suit.value}"
 
+    def __repr__(self):
+        return f"Card(value={self.value.value}, suit={self.suit.value})"
+
 
 class Deck:
     """Model of a deck of cards.
@@ -46,6 +49,9 @@ class Deck:
     """
 
     def __init__(self):
+        self.reset()
+
+    def reset(self):
         self.cards: list[Card] = []
         for suit in Suits:
             for value in CardValues:
@@ -53,6 +59,10 @@ class Deck:
 
     def shuffle(self):
         random.shuffle(self.cards)
+
+    def deal(self, n: int = 1) -> list[Card]:
+        return [self.cards.pop() for _ in range(n)]
+
 
 
 class Hand:
@@ -62,8 +72,11 @@ class Hand:
     For the moment it is blackjack specific.
     """
 
-    def __init__(self, cards: list[Card]):
-        self.cards = cards
+    def __init__(self, cards: list[Card] = None):
+        self.cards = cards or []
+
+    def add_cards(self, cards: list[Card]) -> None:
+        self.cards += cards
 
     @property
     def value(self) -> int:

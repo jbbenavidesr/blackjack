@@ -29,12 +29,51 @@ def test_deck_shuffle_changes_the_list_of_cards():
     deck.shuffle()
     assert starting_cards != deck.cards
 
+def test_deck_deals_card():
+    deck = Deck()
+
+    cards = deck.deal()
+    assert len(cards) == 1
+    assert isinstance(cards[0], Card)
+    assert len(deck.cards) == 51
+
+def test_deck_deals_n_cards():
+    deck = Deck()
+
+    cards = deck.deal(2)
+
+    for card in cards:
+        assert isinstance(card, Card)
+
+    assert len(cards) == 2
+    assert len(deck.cards) == 50
+
+def test_hand_inits_empty():
+    hand = Hand()
+    assert len(hand.cards) == 0
 
 def test_hand_inits_with_cards_passed():
     deck = Deck()
     hand = Hand(deck.cards[:2])
     assert hand.cards == deck.cards[:2]
 
+def test_hand_adds_card():
+    hand = Hand()
+    deck = Deck()
+    hand.add_cards(deck.deal())
+    assert len(hand.cards) == 1
+
+def test_hand_adds_many_cards():
+    hand = Hand()
+    deck = Deck()
+    hand.add_cards(deck.deal(3))
+    assert len(hand.cards) == 3
+
+def test_hand_adds_cards_if_not_empty():
+    deck = Deck()
+    hand = Hand(deck.deal(2))
+    hand.add_cards(deck.deal(2))
+    assert len(hand.cards) == 4
 
 def test_hand_value_is_correct_with_numbers():
     hand1 = Hand(
