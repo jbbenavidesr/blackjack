@@ -33,6 +33,9 @@ class Card:
         self.value = value
         self.suit = suit
 
+    def __str__(self):
+        return f"{self.value.value}{self.suit.value}"
+
 
 class Deck:
     """Model of a deck of cards.
@@ -50,3 +53,37 @@ class Deck:
 
     def shuffle(self):
         random.shuffle(self.cards)
+
+
+class Hand:
+    """Model of a hand in blackjack
+
+    This hand holds the game of a player or dealer and calculates its value.
+    For the moment it is blackjack specific.
+    """
+
+    def __init__(self, cards: list[Card]):
+        self.cards = cards
+
+    @property
+    def value(self) -> int:
+        total = 0
+        aces = 0
+        for card in self.cards:
+            if card.value in [CardValues.JACK, CardValues.QUEEN, CardValues.KING]:
+                total += 10
+            elif card.value is CardValues.ACE:
+                aces += 1
+            else:
+                total += card.value.value
+        if aces > 0:
+            for _ in range(aces):
+                if total + 11 <= 21:
+                    total += 11
+                else:
+                    total += 1
+
+        return total
+
+    def __str__(self):
+        return ", ".join([str(card) for card in self.cards])
